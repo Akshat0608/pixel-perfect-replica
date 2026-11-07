@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+
+- The Vante hero's three.js scene lives in `src/vante/scene.ts` as a framework-free `startVante()` that returns a cleanup; the route dynamically imports it in `useEffect`. Why: keeps WebGL/video code out of SSR and lets the page markup render server-side.
+- Vante page styles live in `src/vante.css` (imported at the top of `src/styles.css`) and follow the reference CSS verbatim. Why: the design was specified as exact CSS to reproduce.
