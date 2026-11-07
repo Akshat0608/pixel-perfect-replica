@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 
-const TITLE = "Vante — Craft in Motion";
+import { Hero } from "@/components/hero";
+import { PortfolioSections } from "@/components/portfolio-sections";
+
+const TITLE = "Akshat Portfolio";
 const DESCRIPTION =
-  "A studio portfolio where a ribbon of live video work sweeps through space, then lands in a grid.";
+  "Akshat Kumar is an AI filmmaker, video editor and sound designer creating ultra-realistic, cinematic stories.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,8 +26,8 @@ function Index() {
   useEffect(() => {
     let cleanup: (() => void) | undefined;
     let cancelled = false;
-    import("@/vante/scene").then(({ startVante }) => {
-      if (!cancelled) cleanup = startVante();
+    import("@/lib/reveal").then(({ startReveal }) => {
+      if (!cancelled) cleanup = startReveal();
     });
     return () => {
       cancelled = true;
@@ -33,56 +36,9 @@ function Index() {
   }, []);
 
   return (
-    <div id="track">
-      <main className="stage" id="stage">
-        <h1 aria-label="Craft in motion">
-          <div className="hl" id="l1" aria-hidden="true">
-            <span>CRAFT IN</span>
-          </div>
-          <div className="hl" id="l2" aria-hidden="true">
-            <span>MOTION</span>
-          </div>
-        </h1>
-        <div id="cap">Exploring ideas through daily design practice.</div>
-        <div id="glow"></div>
-        <div id="cross">
-          <i>+</i>
-        </div>
-        <div id="rule"></div>
-        <canvas id="gl"></canvas>
-        <div id="hint">START A PROJECT &nbsp;→</div>
-        <header className="top">
-          <div className="logo">
-            <svg viewBox="0 0 22 18">
-              <path d="M11 0l11 18h-6.200L11 9.600 6.200 18H0z" />
-            </svg>
-            VANTE
-          </div>
-          <div id="pager">
-            <span>←</span>
-            <span>→</span>
-          </div>
-          <nav className="acts">
-            <a href="#">
-              <i></i>LET'S TALK
-            </a>
-            <a href="#">
-              MENU<b></b>
-            </a>
-          </nav>
-        </header>
-        <footer className="bot">
-          <p>
-            Concepts, explorations and interface experiments shared openly as part of our creative
-            process.
-          </p>
-          <div className="mid">
-            VISUALS<s>/</s>FILM<s>/</s>MUSIC<s>/</s>EXPERIMENTS
-          </div>
-          <div className="r">VIEW SHOWREEL</div>
-        </footer>
-        <div id="name"></div>
-      </main>
-    </div>
+    <main className="pf">
+      <Hero />
+      <PortfolioSections />
+    </main>
   );
 }
