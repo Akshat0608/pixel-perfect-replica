@@ -86,8 +86,8 @@ export function startVante(): () => void {
     const f = clamp(s / PATH_L) * SAMPLES,
       i = Math.min(SAMPLES - 1, Math.floor(f)),
       k = f - i;
-    op.lerpVectors(pathP[i], pathP[i + 1], k);
-    ot.lerpVectors(pathT[i], pathT[i + 1], k).normalize();
+    op.lerpVectors(pathP[i]!, pathP[i + 1]!, k);
+    ot.lerpVectors(pathT[i]!, pathT[i + 1]!, k).normalize();
   };
 
   /* ---------- cards ---------- */
@@ -126,6 +126,8 @@ void main(){
     tex.magFilter = THREE.LinearFilter;
     tex.generateMipmaps = false;
     const geo = new THREE.PlaneGeometry(1, 1, NX, NY);
+    const cover = { value: new THREE.Vector2(1, 1) };
+    const ready = { value: 0 };
     const mat = new THREE.ShaderMaterial({
       vertexShader: vs,
       fragmentShader: fs,
@@ -133,9 +135,9 @@ void main(){
       side: THREE.DoubleSide,
       uniforms: {
         map: { value: tex },
-        cover: { value: new THREE.Vector2(1, 1) },
+        cover,
         aspect: { value: CARD_W / CARD_H },
-        ready: { value: 0 },
+        ready,
         radius: { value: 0.018 },
       },
     });
@@ -146,8 +148,8 @@ void main(){
     v.addEventListener("loadeddata", () => {
       const va = v.videoWidth / v.videoHeight,
         ca = CARD_W / CARD_H;
-      mat.uniforms.cover.value.set(va > ca ? ca / va : 1, va > ca ? 1 : va / ca);
-      mat.uniforms.ready.value = 1;
+      cover.value.set(va > ca ? ca / va : 1, va > ca ? 1 : va / ca);
+      ready.value = 1;
     });
     return c;
   });
@@ -216,7 +218,7 @@ void main(){
     Y = new THREE.Vector3(0, 1, 0),
     vp = new THREE.Vector3();
   function poseRibbon(c: Card, head: number) {
-    const pos = c.geo.attributes.position as THREE.BufferAttribute,
+    const pos = c.geo.getAttribute("position") as THREE.BufferAttribute,
       centre = head - c.i * STEP;
     for (let iy = 0; iy <= NY; iy++)
       for (let ix = 0; ix <= NX; ix++) {
@@ -233,7 +235,7 @@ void main(){
   }
   function poseGrid(c: Card, q: number) {
     const g = grid(c.i),
-      pos = c.geo.attributes.position as THREE.BufferAttribute;
+      pos = c.geo.getAttribute("position") as THREE.BufferAttribute;
     const dx = (g.c - (cols - 1) / 2) * 1.2 + (cols === 3 && g.c === 1 ? 0 : 0),
       dy = g.r < rows / 2 ? 1 : -1;
     const ox = dx * g.vw * 0.62 * (1 - q),
