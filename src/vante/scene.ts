@@ -4,16 +4,14 @@ import * as THREE from "three";
  * Vante ribbon scene — a direct port of the reference script.
  * Call startVante() from the browser only; it returns a cleanup function.
  */
-const R2 = "https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/";
+const VIDEOS = "/projects/";
 const WORK: [string, string][] = [
-  ["Roadster 3D", "designs/roadster-3d-car-landing.mp4"],
-  ["Living Portrait", "aaaf/living-portrait-hero.mp4"],
-  ["Particle Self", "aaaf/oraciteslArea.mp4"],
-  ["Robot Jellyfish", "aaaf/medusa-jellyfish-hero.mp4"],
-  ["Ink Reveal", "designs/ink-reveal-hover.mp4"],
-  ["Space Voyage", "designs/space-voyage-video.mp4"],
-  ["Helion Dispatch", "designs/helion-dispatch-landing.mp4"],
-  ["Honey Bee", "designs/honey-bee-melli-landing.mp4"],
+  ["Project 1", "project-1.mp4"],
+  ["Project 2", "project-2.mp4"],
+  ["Project 3", "project-3.mp4"],
+  ["Project 4", "project-4.mp4"],
+  ["Project 5", "project-5.mp4"],
+  ["Project 6", "project-6.mp4"],
 ];
 
 const clamp = (x: number, a = 0, b = 1) => Math.min(b, Math.max(a, x));
@@ -117,7 +115,7 @@ void main(){
       loop: true,
       playsInline: true,
       preload: "auto",
-      src: R2 + src,
+      src: VIDEOS + src,
     });
     v.setAttribute("playsinline", "");
     const tex = new THREE.VideoTexture(v);
